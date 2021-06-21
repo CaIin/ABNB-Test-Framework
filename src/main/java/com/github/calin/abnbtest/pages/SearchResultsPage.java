@@ -3,7 +3,6 @@ package com.github.calin.abnbtest.pages;
 import com.github.calin.abnbtest.DateUtils;
 import com.github.calin.abnbtest.config.FrameworkContext;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,15 +15,22 @@ import java.util.stream.Collectors;
 
 @Component
 public class SearchResultsPage extends BasePage {
-    @Value("${locator.searchResults.header}") String headerLocator;
-    @Value("${locator.searchResults.propertyCapacity}") String propertyCapacityLocator;
-    @Value("${locator.searchResults.propertyBedrooms}") String propertyBedroomsCapacitor;
-    @Value("${locator.searchResults.moreFilters}") String moreFiltersLocator;
-    @Value("${locator.searchResults.filters}") String filtersLocator;
-    @Value("${regex.searchResultsHeader.guestsRegex}") String guestsRegEx;
-    @Value("${regex.searchResultsHeader.datesRegex}") String datesRegex;
-    @Value("${locator.searchResults.resultItem}") String resultItemLocator;
-
+    @Value("${locator.searchResults.header}")
+    String headerLocator;
+    @Value("${locator.searchResults.propertyCapacity}")
+    String propertyCapacityLocator;
+    @Value("${locator.searchResults.propertyBedrooms}")
+    String propertyBedroomsCapacitor;
+    @Value("${locator.searchResults.moreFilters}")
+    String moreFiltersLocator;
+    @Value("${locator.searchResults.filters}")
+    String filtersLocator;
+    @Value("${regex.searchResultsHeader.guestsRegex}")
+    String guestsRegEx;
+    @Value("${regex.searchResultsHeader.datesRegex.regexp}")
+    String datesRegex;
+    @Value("${locator.searchResults.resultItem}")
+    String resultItemLocator;
 
 
     @Autowired
@@ -58,13 +64,14 @@ public class SearchResultsPage extends BasePage {
 
     /**
      * Uses NLP to try to identify the dates from the Search Header
+     *
      * @return a list of identified dates from the text.
      */
     public List<Date> getSearchDates() {
         String datesText = "";
         Pattern p = Pattern.compile(datesRegex, Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(getSearchHeaderText());
-        if(m.find()) {
+        if (m.find()) {
             datesText = m.group();
         }
         return DateUtils.parseAllDatesFromText(datesText);
@@ -72,13 +79,12 @@ public class SearchResultsPage extends BasePage {
 
     /**
      * Gets the capacity count for results on the first page
+     *
      * @return list of property capacity count for the first page of results
      */
     public List<Integer> getListedPropertiesCapacity() {
-        return webDriver
-                .findElements(getByFor(propertyCapacityLocator))
+        return getElementsText(getByFor(propertyCapacityLocator))
                 .stream()
-                .map(this::getText)
                 .map(text -> text.replaceAll("[^\\d]", ""))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
@@ -86,13 +92,12 @@ public class SearchResultsPage extends BasePage {
 
     /**
      * Gets the bedroom count for results on the first page
+     *
      * @return list of bedroom counts for the first page of results
      */
     public List<Integer> getListedPropertiesBedrooms() {
-        return webDriver
-                .findElements(getByFor(propertyBedroomsCapacitor))
-                .stream()
-                .map(this::getText)
+           return getElementsText(getByFor(propertyBedroomsCapacitor))
+                   .stream()
                 .map(text -> text.replaceAll("[^\\d]", ""))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
@@ -115,11 +120,11 @@ public class SearchResultsPage extends BasePage {
      * @param position Result index to click on. The counting starts from 1 (i.e 1st).
      */
     public void clickResultAtPosition(final int position) {
-        click( webDriver
+        click(webDriver
                 .findElements(getByFor(resultItemLocator))
                 .stream()
                 .skip(position - 1)
                 .findFirst()
-                .orElseThrow(()-> new NoSuchElementException("Could not find the Element at index " + position)));
+                .orElseThrow(() -> new NoSuchElementException("Could not find the Element at index " + position)));
     }
 }

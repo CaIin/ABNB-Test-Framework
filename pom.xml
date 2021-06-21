@@ -18,6 +18,8 @@
 		<cucumber.version>6.10.4</cucumber.version>
 		<selenium.version>4.0.0-beta-4</selenium.version>
 		<webdrivermanager.version>4.4.3</webdrivermanager.version>
+		<aspectj.version>1.8.10</aspectj.version>
+		<allure.version>2.14.0</allure.version>
 	</properties>
 	
 	<dependencies>
@@ -55,6 +57,12 @@
     	<artifactId>webdrivermanager</artifactId>
     	<version>${webdrivermanager.version}</version>
 	</dependency>
+	    <dependency>
+    	<groupId>io.qameta.allure</groupId>
+    	<artifactId>allure-cucumber6-jvm</artifactId>
+        <version>${allure.version}</version>
+    </dependency>
+
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-test</artifactId>
@@ -73,10 +81,51 @@
     	<artifactId>natty</artifactId>
     	<version>0.13</version>
 	</dependency>
+
+	
 	</dependencies>
 
 	<build>
 		<plugins>
+		        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.0.0-M5</version>
+            <configuration>
+                <systemProperties>
+                    <property>
+                        <name>allure.results.directory</name>
+                        <value>${project.build.directory}/allure-results</value>
+                    </property>
+                    <property>
+                        <name>allure.link.issue.pattern</name>
+                        <value>https://example.org/issue/{}</value>
+                    </property>
+                    <property>
+                        <name>allure.link.tms.pattern</name>
+                        <value>https://example.org/tms/{}</value>
+                    </property>
+                </systemProperties>
+                <testFailureIgnore>true</testFailureIgnore>
+                <argLine>
+                    -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    -Dcucumber.plugin="io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm"
+                </argLine>
+            </configuration>
+            <dependencies>
+                <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+                <dependency>
+                    <groupId>org.aspectj</groupId>
+                    <artifactId>aspectjweaver</artifactId>
+                    <version>${aspectj.version}</version>
+                </dependency>
+            </dependencies>
+        </plugin>
+		<plugin>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-maven</artifactId>
+			<version>2.10.0</version>
+		</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
