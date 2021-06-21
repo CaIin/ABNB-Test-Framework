@@ -19,8 +19,8 @@ public class SearchHeaderPage extends BasePage {
     @Value("${locators.homePage.search}") String searchLocator;
 
 
-    private DatePickerPage datePickerPage;
-    private  GuestsPanelPage guestsPanelPage;
+    private final DatePickerPage datePickerPage;
+    private final  GuestsPanelPage guestsPanelPage;
 
 
     @Autowired
@@ -37,15 +37,13 @@ public class SearchHeaderPage extends BasePage {
     }
 
     /**
-     * Sets the location where we are searching for accomodation.
-     * 
-     * @param destination -  Format: <City, Country>
+     * Sets the location where we are searching for accommodation.
+     *
      *
      */
-    public String setDestination(String destination) {
+    public void setDestination(String destination) {
         sendKeys(getByFor(destinationLocator), destination);
         click(getByFor(String.format(firstSuggestionTemplate, destination)));
-        return getText(getByFor(destinationLocator));
     }
 
     /**

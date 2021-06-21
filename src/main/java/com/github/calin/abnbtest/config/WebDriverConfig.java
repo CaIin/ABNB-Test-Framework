@@ -1,7 +1,6 @@
 package com.github.calin.abnbtest.config;
 
-import java.util.concurrent.TimeUnit;
-
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -18,11 +17,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import java.time.Duration;
 
 @Configuration
+@SuppressWarnings("unused")
 public class WebDriverConfig {
-    @Value("${timeout.seconds}") 
+    @SuppressWarnings("unused")
+    @Value("${timeout.seconds}")
     int timeout;
 
     @Bean(destroyMethod = "quit")
@@ -53,7 +54,7 @@ public class WebDriverConfig {
 
     private WebDriver configure(WebDriver webDriver) {
         webDriver.manage().window().maximize();
-        webDriver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeout));
         return webDriver;
     }
 

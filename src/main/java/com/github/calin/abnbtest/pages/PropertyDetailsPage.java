@@ -24,6 +24,7 @@ public class PropertyDetailsPage extends BasePage {
 
     public boolean isAmenityDisplayed(String amenity) {
         By amenityBy = getByFor(String.format(amenityTemplate, amenity));
+        scrollElementIntoView(amenityBy);
         return webDriver.findElement(amenityBy).isDisplayed();
     }
 }

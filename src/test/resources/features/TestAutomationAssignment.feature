@@ -9,7 +9,7 @@ Feature: Test automation assignment
     Background: Search Query
         Given I Open www.airbnb.com
         And Select "Rome, Italy" as a location
-        And Pick a Check-In date "one week after the current date"
+        And Pick a Check-In date "1 month the current date"
         And Pick a Check-Out date "one week after Check-In" date
         And select the number of guests as 2 adults, 1 child, 0 infants
         And click Search

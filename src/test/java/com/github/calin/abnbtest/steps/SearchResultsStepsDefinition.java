@@ -47,10 +47,10 @@ public class SearchResultsStepsDefinition extends SpringBaseStep {
 
     @Then("verify that properties displayed have more than {int} bedrooms")
     public void verifyThatPropertiesDisplayedHaveMoreThanBedrooms(int bedrooms) {
+        List<Integer> bedroomsResults = searchResultsPage.getListedPropertiesBedrooms();
         Assert.assertFalse(
-                "Expected all properties to have bedrooms >= "  +bedrooms,
-                searchResultsPage
-                        .getListedPropertiesBedrooms()
+                "Expected all properties to have bedrooms >= "  + bedrooms +  " but found: " + bedroomsResults,
+                bedroomsResults
                         .stream()
                         .anyMatch(capacity -> capacity < bedrooms));
     }

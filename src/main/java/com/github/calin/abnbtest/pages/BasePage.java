@@ -4,24 +4,26 @@ import com.github.calin.abnbtest.config.FrameworkContext;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Base class for Page Objects.
  *
  * @author Calin Dinis
  */
+@SuppressWarnings("unused")
 public abstract class BasePage {
 
     @Value("${timeout.seconds}")
     int timeoutSeconds;
 
-    protected WebDriver webDriver;
-    protected FluentWait<WebDriver> wait;
+    protected final WebDriver webDriver;
+    protected final FluentWait<WebDriver> wait;
 
     public BasePage(FrameworkContext context) {
         this.webDriver = context.getDriver();
@@ -98,7 +100,10 @@ public abstract class BasePage {
     protected String getText(By by) {
         return wait.until(webDriver1 -> {
                     WebElement el = webDriver.findElement(by);
-                    return el.getText();
+            if (el.isDisplayed() && el.isEnabled() && !el.getText().isEmpty()) {
+                return el.getText();
+            }
+            return null;
         });
     }
 
@@ -164,5 +169,26 @@ public abstract class BasePage {
     protected void scrollElementIntoView(By by) {
         ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);",
                 webDriver.findElement(by));
+    }
+
+    /**
+     * Searches for all elements identified by locator, extracts the text of the element and returns the stream.
+     * @param locator identifier for the list of Elements
+     * @return a Java 8 Stream of the texts of the Elements identified
+     */
+    protected Stream<String> getElementsText(By locator) {
+        return webDriver
+                .findElements(locator)
+                .stream()
+                .map(element -> {
+                    try {
+                        if (element.isDisplayed() && element.isEnabled()) {
+                            String text = element.getText();
+                            return text.length() > 0 ? element.getText() : getText(element);
+                        }
+                    } catch (WebDriverException ignored) { }
+                    return null;
+                })
+                .filter(Objects::nonNull);
     }
 }
