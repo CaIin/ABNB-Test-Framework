@@ -4,31 +4,38 @@ import com.github.calin.abnbtest.config.FrameworkContext;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 
 /**
  * Base class for Page Objects.
  *
  * @author Calin Dinis
  */
+@SuppressWarnings("unused")
 public abstract class BasePage {
 
     @Value("${timeout.seconds}")
     int timeoutSeconds;
 
-    protected WebDriver webDriver;
-    protected FluentWait<WebDriver> wait;
+    protected final WebDriver webDriver;
+    protected final FluentWait<WebDriver> wait;
 
     public BasePage(FrameworkContext context) {
         this.webDriver = context.getDriver();
         this.wait = new FluentWait<>(webDriver)
                 .withTimeout(Duration.ofSeconds(context.getTimeout()))
                 .pollingEvery(Duration.ofMillis(context.getPollingInterval()))
-                .ignoreAll(Arrays.asList(NoSuchElementException.class, StaleElementReferenceException.class));
+                .ignoreAll(Arrays.asList(NoSuchElementException.class,
+                        StaleElementReferenceException.class,
+                        ElementClickInterceptedException.class));
     }
 
     /**
@@ -98,7 +105,10 @@ public abstract class BasePage {
     protected String getText(By by) {
         return wait.until(webDriver1 -> {
                     WebElement el = webDriver.findElement(by);
-                    return el.getText();
+            if (el.isDisplayed() && el.isEnabled() && !el.getText().isEmpty()) {
+                return el.getText();
+            }
+            return null;
         });
     }
 
@@ -164,5 +174,33 @@ public abstract class BasePage {
     protected void scrollElementIntoView(By by) {
         ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);",
                 webDriver.findElement(by));
+    }
+
+    /**
+     * Searches for all elements identified by locator, extracts the text of the element and returns the stream.
+     * If the element's text is empty, it is <b>not</b> returned.
+     *
+     * @param locator identifier for the list of Elements
+     * @return a Java 8 Stream of the texts of the Elements identified
+     */
+    protected List<String> getElementsText(By locator) {
+        try {
+            return webDriver
+                    .findElements(locator)
+                    .stream()
+                    .filter(WebElement::isDisplayed)
+                    .filter(WebElement::isEnabled)
+                    .map(WebElement::getText)
+                    .filter(Objects::nonNull)
+                    .filter(not(String::isEmpty))
+                    .collect(Collectors.toList());
+        } catch (WebDriverException ignored) {
+            //the list has been updated, so we get it again for best results.
+            return getElementsText(locator);
+        }
+    }
+
+    private static <T> Predicate<T> not(Predicate<T> t) {
+        return t.negate();
     }
 }

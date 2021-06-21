@@ -42,10 +42,9 @@ public class SearchHeaderPage extends BasePage {
      * @param destination -  Format: <City, Country>
      *
      */
-    public String setDestination(String destination) {
+    public void setDestination(String destination) {
         sendKeys(getByFor(destinationLocator), destination);
         click(getByFor(String.format(firstSuggestionTemplate, destination)));
-        return getText(getByFor(destinationLocator));
     }
 
     /**
