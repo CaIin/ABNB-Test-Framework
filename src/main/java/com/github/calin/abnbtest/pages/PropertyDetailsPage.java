@@ -9,21 +9,30 @@ import org.springframework.stereotype.Component;
 @Component
 public class PropertyDetailsPage extends BasePage {
 
+  @Value("${locator.propertyDetails.showAmenities}")
+  String showAmenitiesLocator;
 
-    @Value("${locator.propertyDetails.showAmenities}") String showAmenitiesLocator;
-    @Value("${locator.propertyDetails.amenityTemplate}") String amenityTemplate;
+  @Value("${locator.propertyDetails.amenityTemplate}")
+  String amenityTemplate;
 
-    @Autowired
-    public PropertyDetailsPage(FrameworkContext context) {
-        super(context);
-    }
+  @Autowired
+  public PropertyDetailsPage(FrameworkContext context) {
+    super(context);
+  }
 
-    public void clickShowAllAmenities() {
-        click(getByFor(showAmenitiesLocator));
-    }
+  /** Clicks on Show All Amenities Button in order to open the Amenities Modal Window. */
+  public void clickShowAllAmenities() {
+    click(getByFor(showAmenitiesLocator));
+  }
 
-    public boolean isAmenityDisplayed(String amenity) {
-        By amenityBy = getByFor(String.format(amenityTemplate, amenity));
-        return webDriver.findElement(amenityBy).isDisplayed();
-    }
+  /**
+   * Checks if amenity is present in the list of amenities of the Property
+   *
+   * @param amenity name of the Amenity to be searched. Case Sensitive.
+   * @return true if amenity present int the Amenities Modal
+   */
+  public boolean isAmenityDisplayed(String amenity) {
+    By amenityBy = getByFor(String.format(amenityTemplate, amenity));
+    return webDriver.findElement(amenityBy).isDisplayed();
+  }
 }
