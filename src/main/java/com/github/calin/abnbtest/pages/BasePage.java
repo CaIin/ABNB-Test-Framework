@@ -133,7 +133,7 @@ public abstract class BasePage {
 
   /**
    * Instantiates a By Object from string. The value needs to have the format
-   * <b>seletor-type:value</b> where <b>selector-type</b> can be one of: <i>css, xpath, id,
+   * <b>seletor-type->value</b> where <b>selector-type</b> can be one of: <i>css, xpath, id,
    * className, linkText, partialLinkText, tagName</i> and value is the string representation of the
    * element identifier
    *
