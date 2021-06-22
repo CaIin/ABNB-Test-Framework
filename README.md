@@ -39,7 +39,7 @@ $ sudo apt-get install openjdk-11-jdk
 Currently, the Test Scenarios reside
 in [SearchLocation.feature](https://github.com/CaIin/ABNB-Test-Framework/blob/main/src/test/resources/features/SearchLocation.feature) file.
 
-### Running in Local Web Browser**
+### Running in Local Web Browser
 
 You can run the scenarios locally using your one of the installed browsers on your machine. Please note that the browser
 you want to use **must be installed on your machine**. By default running the ```./mvnw``` test without any arguments
@@ -50,7 +50,7 @@ will default to running the tests on your local Google Chrome browser installati
 $ ./mvnw test [ browser.name=<chrome|firefox|edge|safari|opera> ]
 ```
 
-**Safari Web Browser
+**Safari Web Browser**
 
 
 For Selenium WebDriver to be able to control the Safary Web Browser it is mandatory to manually enable the `Develop -> Remote Automation`  feature from the Safari Menu bar before running the tests. **Warning**: Runs on safari are unstable at the moment.
