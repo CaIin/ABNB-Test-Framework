@@ -65,9 +65,11 @@ public class WebDriverConfig {
     Capabilities capabilities;
     switch (browserName.toLowerCase()) {
       case BrowserType.FIREFOX:
+        WebDriverManager.firefoxdriver().setup();
         capabilities = DesiredCapabilities.firefox();
         break;
       case BrowserType.CHROME:
+        WebDriverManager.chromedriver().setup();
         capabilities = DesiredCapabilities.chrome();
         break;
       default:
