@@ -50,7 +50,7 @@ will default to running the tests on your local Google Chrome browser installati
 $ ./mvnw test [ browser.name=<chrome|firefox|edge|safari|opera> ]
 ```
 
-**Safari Web Browser**
+**Safari Web Browser
 
 
 For Selenium WebDriver to be able to control the Safary Web Browser it is mandatory to manually enable the `Develop -> Remote Automation`  feature from the Safari Menu bar before running the tests. **Warning**: Runs on safari are unstable at the moment.
