@@ -51,10 +51,14 @@ $ ./mvnw test [ browser.name=<chrome|firefox|edge|safari|opera> ]
 ```
 
 **Safari Web Browser**
-For Selenium WebDriver to be able to control the Safary Web Browser it is mandatory to manually enable the `Develop -> Remote Automation`  feature from the Safari Menu bar before running the tests. Running the automation in Safari is the least stable of all the browsers tested :-(. How you like them apples ?
+
+
+For Selenium WebDriver to be able to control the Safary Web Browser it is mandatory to manually enable the `Develop -> Remote Automation`  feature from the Safari Menu bar before running the tests. **Warning**: Runs on safari are unstable at the moment.
+
 
 ### Running tests in Docker (Selenium Grid in Docker)
 Please note that in order to be able to run the tests in Docker locally on your machine you need to have Docker installed. 
+
 
 **Start the Docker Selenium Grid**
 
