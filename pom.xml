@@ -1,136 +1,161 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.1</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.github.calin</groupId>
-	<artifactId>abnb-test</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>ABNB Test Framework</name>
-	<description>Java Spring Boot Cucumber Test Framework</description>
-	<properties>
-		<java.version>1.8</java.version>
-		<cucumber.version>6.10.4</cucumber.version>
-		<selenium.version>4.0.0-beta-4</selenium.version>
-		<webdrivermanager.version>4.4.3</webdrivermanager.version>
-		<aspectj.version>1.8.10</aspectj.version>
-		<allure.version>2.14.0</allure.version>
-	</properties>
-	
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.github.calin</groupId>
+    <artifactId>abnb-test</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>ABNB Test Framework</name>
+    <description>Java Spring Boot Cucumber Test Framework</description>
+    <properties>
+        <java.version>1.8</java.version>
+        <cucumber.version>6.10.4</cucumber.version>
+        <!--		<selenium.version>4.0.0-beta-4</selenium.version>-->
+        <selenium.version>3.141.59</selenium.version>
+        <webdrivermanager.version>4.4.3</webdrivermanager.version>
+        <aspectj.version>1.8.10</aspectj.version>
+        <allure.version>2.14.0</allure.version>
+        <spotless.plugin.version>1.26.1</spotless.plugin.version>
+		<google-java-format.version>1.7</google-java-format.version>
+    </properties>
 
-	<dependency>
-    	<groupId>io.cucumber</groupId>
-    	<artifactId>cucumber-java</artifactId>
-    	<version>${cucumber.version}</version>
-	</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
 
-		<dependency>
-    	<groupId>io.cucumber</groupId>
-    	<artifactId>cucumber-spring</artifactId>
-    	<version>${cucumber.version}</version>
-	</dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
 
-	<dependency>
-    	<groupId>io.cucumber</groupId>
-    	<artifactId>cucumber-junit</artifactId>
-    	<version>${cucumber.version}</version>
-	</dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
 
-	<dependency>
-    	<groupId>org.seleniumhq.selenium</groupId>
-    	<artifactId>selenium-java</artifactId>
-    	<version>${selenium.version}</version>
-	</dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
 
-	<dependency>
-    	<groupId>io.github.bonigarcia</groupId>
-    	<artifactId>webdrivermanager</artifactId>
-    	<version>${webdrivermanager.version}</version>
-	</dependency>
-	    <dependency>
-    	<groupId>io.qameta.allure</groupId>
-    	<artifactId>allure-cucumber6-jvm</artifactId>
-        <version>${allure.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
 
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-test</artifactId>
-		<scope>test</scope>
-		<exclusions>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber6-jvm</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
                 <exclusion>
                     <groupId>org.junit.jupiter</groupId>
                     <artifactId>junit-jupiter-engine</artifactId>
                 </exclusion>
             </exclusions>
-	</dependency>
+        </dependency>
 
-<!-- https://mvnrepository.com/artifact/com.joestelmach/natty -->
-	<dependency>
-    	<groupId>com.joestelmach</groupId>
-    	<artifactId>natty</artifactId>
-    	<version>0.13</version>
-	</dependency>
+        <!-- https://mvnrepository.com/artifact/com.joestelmach/natty -->
+        <dependency>
+            <groupId>com.joestelmach</groupId>
+            <artifactId>natty</artifactId>
+            <version>0.13</version>
+        </dependency>
 
-	
-	</dependencies>
 
-	<build>
-		<plugins>
-		        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.0.0-M5</version>
-            <configuration>
-                <systemProperties>
-                    <property>
-                        <name>allure.results.directory</name>
-                        <value>${project.build.directory}/allure-results</value>
-                    </property>
-                    <property>
-                        <name>allure.link.issue.pattern</name>
-                        <value>https://example.org/issue/{}</value>
-                    </property>
-                    <property>
-                        <name>allure.link.tms.pattern</name>
-                        <value>https://example.org/tms/{}</value>
-                    </property>
-                </systemProperties>
-                <testFailureIgnore>true</testFailureIgnore>
-                <argLine>
-                    -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                    -Dcucumber.plugin="io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm"
-                </argLine>
-            </configuration>
-            <dependencies>
-                <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
-                <dependency>
-                    <groupId>org.aspectj</groupId>
-                    <artifactId>aspectjweaver</artifactId>
-                    <version>${aspectj.version}</version>
-                </dependency>
-            </dependencies>
-        </plugin>
-		<plugin>
-			<groupId>io.qameta.allure</groupId>
-			<artifactId>allure-maven</artifactId>
-			<version>2.10.0</version>
-		</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <systemProperties>
+                        <property>
+                            <name>allure.results.directory</name>
+                            <value>${project.build.directory}/allure-results</value>
+                        </property>
+                        <property>
+                            <name>allure.link.issue.pattern</name>
+                            <value>https://example.org/issue/{}</value>
+                        </property>
+                        <property>
+                            <name>allure.link.tms.pattern</name>
+                            <value>https://example.org/tms/{}</value>
+                        </property>
+                    </systemProperties>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                        -Dcucumber.plugin="io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm"
+                    </argLine>
+                </configuration>
+                <dependencies>
+                    <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.10.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin><!-- For more information please see the url :  https://github.com/diffplug/spotless/tree/master/plugin-maven-->
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless.plugin.version}</version>
+                <configuration>
+                    <java>
+                        <googleJavaFormat>
+                            <version>${google-java-format.version}</version>
+                            <style>GOOGLE</style>
+                        </googleJavaFormat>
+                        <removeUnusedImports/>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

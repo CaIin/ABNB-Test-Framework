@@ -7,66 +7,71 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MoreFiltersPage extends BasePage{
+public class MoreFiltersPage extends BasePage {
 
-    @Value("${locator.moreFilters.bedroomsCount}") String bedroomCountLocator;
-    @Value("${locator.moreFilters.addBedroom}") String addBedroomLocator;
-    @Value("${locator.moreFilters.removeBedroom}") String removeBedroomLocator;
-    @Value("${locator.moreFilters.showStays}") String showStaysLocator;
+  @Value("${locator.moreFilters.bedroomsCount}")
+  String bedroomCountLocator;
 
-    @Value("${locator.moreFilters.facilityTemplate}") String poolFacilityTemplate;
+  @Value("${locator.moreFilters.addBedroom}")
+  String addBedroomLocator;
 
+  @Value("${locator.moreFilters.removeBedroom}")
+  String removeBedroomLocator;
 
+  @Value("${locator.moreFilters.showStays}")
+  String showStaysLocator;
 
-    @Autowired
-    public MoreFiltersPage(FrameworkContext context) {
-        super(context);
-    }
+  @Value("${locator.moreFilters.facilityTemplate}")
+  String poolFacilityTemplate;
 
-    /**
-     * Gets the More Filters Current number of bedrooms selected.
-     * @return number of bedrooms as displayed in the More Filter room
-     */
-    public int getCurrentNumberOfBedrooms() {
-        return Integer.parseInt(getText(getByFor(bedroomCountLocator)));
-    }
+  @Autowired
+  public MoreFiltersPage(FrameworkContext context) {
+    super(context);
+  }
 
-    /**
-     * Sets the More Filters Number of bedrooms for the current search.
-     *
-     * @param noOfBedrooms the number of bedrooms to be set in the filter
-     */
-    public void setNoOfBedrooms(int noOfBedrooms) {
-        int currentNumberOfBedrooms = getCurrentNumberOfBedrooms();
-        Runnable action = currentNumberOfBedrooms <  noOfBedrooms ? this::addBedroom : this::removeBedroom;
-        int actionCount = Math.abs(currentNumberOfBedrooms - noOfBedrooms);
-        performActionFor(actionCount, action);
-    }
+  /**
+   * Gets the More Filters Current number of bedrooms selected.
+   *
+   * @return number of bedrooms as displayed in the More Filter room
+   */
+  public int getCurrentNumberOfBedrooms() {
+    return Integer.parseInt(getText(getByFor(bedroomCountLocator)));
+  }
 
-    /**
-     * Clicks the facility requested.
-     *
-     * @param facility the name of the facility to click.
-     */
-    public void clickFacility(String facility) {
-        By by = getByFor(String.format(poolFacilityTemplate, facility));
-        scrollElementIntoView(by);
-        click(by);
-    }
+  /**
+   * Sets the More Filters Number of bedrooms for the current search.
+   *
+   * @param noOfBedrooms the number of bedrooms to be set in the filter
+   */
+  public void setNoOfBedrooms(int noOfBedrooms) {
+    int currentNumberOfBedrooms = getCurrentNumberOfBedrooms();
+    Runnable action =
+        currentNumberOfBedrooms < noOfBedrooms ? this::addBedroom : this::removeBedroom;
+    int actionCount = Math.abs(currentNumberOfBedrooms - noOfBedrooms);
+    performActionFor(actionCount, action);
+  }
 
-    /**
-     * Clicks the Show Stays button
-     */
-    public void clickShowStays() {
-        click(getByFor(showStaysLocator));
-    }
+  /**
+   * Clicks the facility requested.
+   *
+   * @param facility the name of the facility to click.
+   */
+  public void clickFacility(String facility) {
+    By by = getByFor(String.format(poolFacilityTemplate, facility));
+    scrollElementIntoView(by);
+    click(by);
+  }
 
-    private void removeBedroom() {
-        click(getByFor(removeBedroomLocator));
-    }
+  /** Clicks the Show Stays button */
+  public void clickShowStays() {
+    click(getByFor(showStaysLocator));
+  }
 
-    private void addBedroom() {
-        click(getByFor(addBedroomLocator));
-    }
+  private void removeBedroom() {
+    click(getByFor(removeBedroomLocator));
+  }
 
+  private void addBedroom() {
+    click(getByFor(addBedroomLocator));
+  }
 }

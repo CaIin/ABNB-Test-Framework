@@ -5,30 +5,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-/**
- * Holds the Framework Instance instance
- */
+/** Holds the Framework Instance instance */
 @Component
 public class FrameworkContext {
-    @Autowired WebDriver webDriver;
+  @Autowired WebDriver webDriver;
 
-    @Value("${timeout.seconds}") int timeout;
-    @Value("${polling.milliseconds}") long pollingInterval;
-    @Value("${throttle.milliseconds}") long throttleMillis;
+  @Value("${timeout.seconds}")
+  int timeout;
 
-    public WebDriver getDriver() {
-        return webDriver;
-    }
+  @Value("${polling.milliseconds}")
+  long pollingInterval;
 
-    public int getTimeout() {
-        return timeout;
-    }
+  @Value("${throttle.milliseconds}")
+  long throttleMillis;
 
-    public long getPollingInterval() {
-        return pollingInterval;
-    }
+  public WebDriver getDriver() {
+    return webDriver;
+  }
 
-    public long getThrottleMillis() {
-        return throttleMillis;
-    }
+  public int getTimeout() {
+    return timeout;
+  }
+
+  public long getPollingInterval() {
+    return pollingInterval;
+  }
+
+  public long getThrottleMillis() {
+    return throttleMillis;
+  }
 }
