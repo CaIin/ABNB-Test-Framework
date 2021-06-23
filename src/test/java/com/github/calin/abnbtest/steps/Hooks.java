@@ -27,6 +27,7 @@ public class Hooks extends SpringBaseStep {
                 webDriver.switchTo().window(handle);
                 webDriver.close();
               });
+      webDriver.switchTo().window(webDriver.getWindowHandles().iterator().next());
     } catch (Exception ex) {
       ex.printStackTrace();
     }
