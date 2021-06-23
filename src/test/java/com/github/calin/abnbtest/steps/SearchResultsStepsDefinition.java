@@ -49,6 +49,7 @@ public class SearchResultsStepsDefinition extends SpringBaseStep {
 
   @When("I click the {int}(\\w+) search result the property is open in new tab")
   public void iClickTheStSearchResultThePropertyIsOpenInNewTab(int index) {
+    testContext.setOriginalWindowHandle(webDriver.getWindowHandle());
     searchResultsPage.clickResultAtPositionAndSwitchToTab(index);
   }
 
