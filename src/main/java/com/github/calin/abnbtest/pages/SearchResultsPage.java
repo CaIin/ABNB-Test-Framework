@@ -181,4 +181,15 @@ public class SearchResultsPage extends BasePage {
       return getResultAtPosition(index);
     }
   }
+
+  /**
+   * Clicks the search result at position. Starts from 1. Waits until the second tab is opened and
+   * switches to it.
+   *
+   * @param position Result index to click on. The counting starts from 1 (i.e 1st).
+   */
+  public void clickResultAtPositionAndSwitchToTab(final int position) {
+    clickResultAtPosition(position);
+    switchToSecondTab();
+  }
 }

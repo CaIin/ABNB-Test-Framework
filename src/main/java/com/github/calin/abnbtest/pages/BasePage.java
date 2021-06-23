@@ -2,10 +2,8 @@ package com.github.calin.abnbtest.pages;
 
 import com.github.calin.abnbtest.config.FrameworkContext;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.openqa.selenium.*;
@@ -200,6 +198,25 @@ public abstract class BasePage {
       // the list has been updated, so we get it again for best results.
       return getElementsText(locator);
     }
+  }
+
+  /**
+   * Tries for 5 seconds to switch to the second tab. This method should be used when a test
+   * performs an action that opens a new tab. and we want to switch to it
+   */
+  protected void switchToSecondTab() {
+    wait.until(
+        webDriver1 -> {
+          List<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
+          if (tabs.size() == 1) {
+            return false; // The second tab did not open.
+          }
+          tabs.stream()
+              .filter(not(handle -> handle.equalsIgnoreCase(webDriver.getWindowHandle())))
+              .findFirst()
+              .ifPresent(handle -> webDriver1.switchTo().window(handle));
+          return true;
+        });
   }
 
   private static <T> Predicate<T> not(Predicate<T> t) {

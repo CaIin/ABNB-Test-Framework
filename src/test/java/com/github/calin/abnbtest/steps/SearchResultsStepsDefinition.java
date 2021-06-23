@@ -4,7 +4,6 @@ import com.github.calin.abnbtest.DateUtils;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Assert;
@@ -50,10 +49,7 @@ public class SearchResultsStepsDefinition extends SpringBaseStep {
 
   @When("I click the {int}(\\w+) search result the property is open in new tab")
   public void iClickTheStSearchResultThePropertyIsOpenInNewTab(int index) {
-    testContext.setOriginalWindowHandle(webDriver.getWindowHandle());
-    searchResultsPage.clickResultAtPosition(index);
-    List<String> tabs2 = new ArrayList<>(webDriver.getWindowHandles());
-    webDriver.switchTo().window(tabs2.get(1));
+    searchResultsPage.clickResultAtPositionAndSwitchToTab(index);
   }
 
   @Given("the details for the {int}st property in the results list are saved")
