@@ -21,7 +21,7 @@ Feature: Test automation assignment
     And verify that Results Guest Capacity >= 3
 
 
-  @Test-2 @CloseBrowserTab
+  @Test-2 @CloseBrowserTabs
   Scenario: Verify that the results and details page match the extra filters
     When open More Filters
     And select 5 bedrooms

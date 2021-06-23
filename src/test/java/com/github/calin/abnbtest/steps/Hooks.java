@@ -16,11 +16,17 @@ public class Hooks extends SpringBaseStep {
     }
   }
 
-  @After(value = "@CloseBrowserTab", order = 1)
+  @After(value = "@CloseBrowserTabs", order = 1)
   public void closeBrowserTab() {
     try {
-      webDriver.close();
-      webDriver.switchTo().window(testContext.getOriginalWindowHandle());
+      webDriver.getWindowHandles().stream()
+          .sorted()
+          .skip(1)
+          .forEach(
+              handle -> {
+                webDriver.switchTo().window(handle);
+                webDriver.close();
+              });
     } catch (Exception ex) {
       ex.printStackTrace();
     }
