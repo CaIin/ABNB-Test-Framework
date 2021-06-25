@@ -18,6 +18,7 @@ public class MapStepsDefinitions extends SpringBaseStep {
   }
 
   @When("hovering above the property, the color of the map pin changes")
+  @When("Hover over that property")
   public void hoveringAboveThePropertyTheColorOfTheMapPinChanges() {
     String mapPinColorBeforeHover = mapsPage.getMapPinColor(testContext.getPropertyTitle());
     searchResultsPage.hoverOverSearchResult(testContext.getPropertyIndex());
