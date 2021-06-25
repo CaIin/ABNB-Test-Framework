@@ -62,6 +62,10 @@ public class SearchResultsStepsDefinition extends SpringBaseStep {
 
   @Given("I Go trough all the results on the first page and find the one with the lowest price")
   public void iGoTroughAllTheResultsOnTheFirstPageAndFindTheOneWithTheLowestPrice() {
-    testContext.setPropertyIndex(searchResultsPage.getLowestPriceResultIndex());
+    testContext.setPropertyIndex(searchResultsPage.getLowestPriceResultIndex() + 1);
+    testContext.setPropertyTitle(
+        searchResultsPage.getPropertyTitle(testContext.getPropertyIndex()));
+    testContext.setPropertyPricePerNight(
+        searchResultsPage.getPricePerNight(testContext.getPropertyIndex()));
   }
 }

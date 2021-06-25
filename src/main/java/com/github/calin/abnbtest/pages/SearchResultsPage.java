@@ -163,7 +163,7 @@ public class SearchResultsPage extends BasePage {
    * @return price per night
    */
   public double getPricePerNight(int index) {
-    return getPrice(getResultAtPosition(index).findElement(getByFor(priceLocator)));
+    return getPrice(getResultAtPosition(index));
   }
 
   private WebElement getResultAtPosition(int index) {
@@ -183,8 +183,8 @@ public class SearchResultsPage extends BasePage {
   private List<WebElement> getAllResults() {
     try {
       return webDriver.findElements(getByFor(resultItemLocator)).stream()
-              .filter(WebElement::isDisplayed)
-              .collect(Collectors.toList());
+          .filter(WebElement::isDisplayed)
+          .collect(Collectors.toList());
     } catch (StaleElementReferenceException ex) {
       ex.printStackTrace();
       return getAllResults();
@@ -193,8 +193,7 @@ public class SearchResultsPage extends BasePage {
 
   private double getPrice(WebElement el) {
     return Double.parseDouble(
-            getText(el)
-                    .replaceAll("[^\\d]", ""));
+        getText(el.findElement(getByFor(priceLocator))).replaceAll("[^\\d]", ""));
   }
 
   /**
@@ -208,20 +207,18 @@ public class SearchResultsPage extends BasePage {
     switchToSecondTab();
   }
 
-  /**
-   *
-   * @return the search result index of the lowest price
-   */
+  /** @return the search result index of the lowest price */
   public int getLowestPriceResultIndex() {
-      Double lowestPrice = Double.POSITIVE_INFINITY;
-      int lowestPriceIndex = 0;
-      List<WebElement> searchResults = getAllResults();
-      for (int i = 0; i < searchResults.size(); i++) {
-        double currentPrice = getPrice(searchResults.get(i));
-        if (currentPrice < lowestPrice) {
-          lowestPriceIndex = i;
-        }
+    Double lowestPrice = Double.POSITIVE_INFINITY;
+    int lowestPriceIndex = -1;
+    List<WebElement> searchResults = getAllResults();
+    for (int i = 0; i < searchResults.size(); i++) {
+      double currentPrice = getPrice(searchResults.get(i));
+      if (currentPrice < lowestPrice) {
+        lowestPrice = currentPrice;
+        lowestPriceIndex = i;
       }
-      return lowestPriceIndex;
+    }
+    return lowestPriceIndex;
   }
 }
