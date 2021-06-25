@@ -42,6 +42,17 @@ Feature: Test automation assignment
     And map pop price matches the search result price
 
 
+    @Test-4
+    Scenario: Verify that lowest price property is displayed on the map correctly
+      Given I Go trough all the results on the first page and find the one with the lowest price
+      When hovering above the property, the color of the map pin changes
+      And click on the map pin of the selected property
+      And map pop price matches the search result price
+
+
+
+
+
 
 
 

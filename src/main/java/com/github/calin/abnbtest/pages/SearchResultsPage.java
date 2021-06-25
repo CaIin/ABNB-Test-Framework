@@ -163,9 +163,7 @@ public class SearchResultsPage extends BasePage {
    * @return price per night
    */
   public double getPricePerNight(int index) {
-    return Double.parseDouble(
-        getText(getResultAtPosition(index).findElement(getByFor(priceLocator)))
-            .replaceAll("[^\\d]", ""));
+    return getPrice(getResultAtPosition(index).findElement(getByFor(priceLocator)));
   }
 
   private WebElement getResultAtPosition(int index) {
@@ -182,6 +180,23 @@ public class SearchResultsPage extends BasePage {
     }
   }
 
+  private List<WebElement> getAllResults() {
+    try {
+      return webDriver.findElements(getByFor(resultItemLocator)).stream()
+              .filter(WebElement::isDisplayed)
+              .collect(Collectors.toList());
+    } catch (StaleElementReferenceException ex) {
+      ex.printStackTrace();
+      return getAllResults();
+    }
+  }
+
+  private double getPrice(WebElement el) {
+    return Double.parseDouble(
+            getText(el)
+                    .replaceAll("[^\\d]", ""));
+  }
+
   /**
    * Clicks the search result at position. Starts from 1. Waits until the second tab is opened and
    * switches to it.
@@ -191,5 +206,22 @@ public class SearchResultsPage extends BasePage {
   public void clickResultAtPositionAndSwitchToTab(final int position) {
     clickResultAtPosition(position);
     switchToSecondTab();
+  }
+
+  /**
+   *
+   * @return the search result index of the lowest price
+   */
+  public int getLowestPriceResultIndex() {
+      Double lowestPrice = Double.POSITIVE_INFINITY;
+      int lowestPriceIndex = 0;
+      List<WebElement> searchResults = getAllResults();
+      for (int i = 0; i < searchResults.size(); i++) {
+        double currentPrice = getPrice(searchResults.get(i));
+        if (currentPrice < lowestPrice) {
+          lowestPriceIndex = i;
+        }
+      }
+      return lowestPriceIndex;
   }
 }
